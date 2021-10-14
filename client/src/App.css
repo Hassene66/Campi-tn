@@ -3620,8 +3620,15 @@ header .hero-text-box {
   background-color: white;
   color: #2b709a;
 }
+
 .menu a {
   color: #fff;
+}
+
+/* solving the link problem  */
+.menu a:visited {
+  color: #fff;
+  text-decoration: none;
 }
 .menu i {
   font-size: 3rem;
