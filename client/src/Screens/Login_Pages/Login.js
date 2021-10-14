@@ -36,7 +36,7 @@ Password : ${password}
                     <div className="wrap-input100 validate-input m-b-16">
                       <input
                         className="input100"
-                        type="email"
+                        type="e-mail"
                         name="Email"
                         placeholder="Email"
                         onChange={HandleEmailChange}
