@@ -58,7 +58,7 @@ Password : ${password}
                       />
                       <span className="focus-input100" />
                       <span className="symbol-input100">
-                        <i class="fas fa-lock"></i>
+                        <i className="fas fa-lock"></i>
                       </span>
                     </div>
                     <div className="container-login100-form-btn p-t-25">
