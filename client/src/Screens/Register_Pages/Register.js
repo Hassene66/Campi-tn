@@ -1,9 +1,11 @@
-import react, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 function Register() {
   const [userInput, setUserInput] = useState({
-    FullName: "",
+    Name: "",
+    Surname: "",
     Email: "",
     Password: "",
   });
@@ -13,12 +15,24 @@ function Register() {
       [e.target.name]: e.target.value,
     }));
   };
+
   const HandleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Fullname : ${userInput.FullName}
-Email : ${userInput.Email}
-Password : ${userInput.Password}
-      `);
+    const data = {
+      nom: userInput.Name,
+      prénom: userInput.Surname,
+      email: userInput.Email,
+      motdepasse: userInput.Password,
+    };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post("/api/register", data, config)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.response.data));
   };
   return (
     <div className="register ">
@@ -36,18 +50,28 @@ Password : ${userInput.Password}
                     onSubmit={HandleSubmit}
                     className="login100-form validate-form"
                   >
-                    <span className="login100-form-title "> Register </span>
+                    <span className="login100-form-title "> Créer </span>
                     <span className="login100-form-subtitle m-b-16">
-                      new account
+                      nouveau compte
                     </span>
                     <div className="wrap-input100 validate-input m-b-16">
                       <input
                         className="input100"
                         type="text"
-                        name="FullName"
-                        placeholder="Full name"
+                        name="Name"
+                        placeholder="Nom"
                         onChange={HandleInputChange}
-                        value={userInput.FullName}
+                        value={userInput.Name}
+                      />
+                    </div>
+                    <div className="wrap-input100 validate-input m-b-16">
+                      <input
+                        className="input100"
+                        type="text"
+                        name="Surname"
+                        placeholder="Prénom"
+                        onChange={HandleInputChange}
+                        value={userInput.Surname}
                       />
                     </div>
                     <div className="wrap-input100 validate-input m-b-16">
@@ -65,7 +89,7 @@ Password : ${userInput.Password}
                         className="input100"
                         type="password"
                         name="Password"
-                        placeholder="Password"
+                        placeholder="mot de passe"
                         onChange={HandleInputChange}
                         value={userInput.Password}
                       />
@@ -76,7 +100,7 @@ Password : ${userInput.Password}
                     <div className="flex-sb-m w-full p-b-30 mt-3">
                       <div className="contact100-form-checkbox"></div>
                       <div>
-                        Already a member? <Link to="/login">Login</Link>
+                        Déjà membre? <Link to="/login">Login</Link>
                       </div>
                     </div>
                   </form>
