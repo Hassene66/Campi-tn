@@ -1,20 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const HandleEmailChange = (e) => {
-    setEmail(() => e.target.value);
+  const [userInput, setUserInput] = useState({
+    Email: "",
+    Password: "",
+  });
+  const HandleInputChange = (e) => {
+    setUserInput((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
-  const HandlePasswordChange = (e) => {
-    setPassword(() => e.target.value);
-  };
+
   const HandleSubmit = (e) => {
     e.preventDefault();
-    console.log(`Email : ${email}
-Password : ${password}
-      `);
+    const data = {
+      email: userInput.Email,
+      motdepasse: userInput.Password,
+    };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post("/api/login", data, config)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.response.data));
   };
   return (
     <div className="login ">
@@ -39,8 +53,8 @@ Password : ${password}
                         type="e-mail"
                         name="Email"
                         placeholder="Email"
-                        onChange={HandleEmailChange}
-                        value={email}
+                        onChange={HandleInputChange}
+                        value={userInput.Email}
                       />
                       <span className="focus-input100" />
                       <span className="symbol-input100">
@@ -51,14 +65,14 @@ Password : ${password}
                       <input
                         className="input100"
                         type="password"
-                        name="pass"
-                        placeholder="Password"
-                        onChange={HandlePasswordChange}
-                        value={password}
+                        name="Password"
+                        placeholder="Mot de passe"
+                        onChange={HandleInputChange}
+                        value={userInput.Password}
                       />
                       <span className="focus-input100" />
                       <span className="symbol-input100">
-                        <i class="fas fa-lock"></i>
+                        <i className="fas fa-lock"></i>
                       </span>
                     </div>
                     <div className="container-login100-form-btn p-t-25">
