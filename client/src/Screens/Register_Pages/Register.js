@@ -52,7 +52,7 @@ function Register() {
                   >
                     <span className="login100-form-title "> Créer </span>
                     <span className="login100-form-subtitle m-b-16">
-                      nouveau compte
+                      un nouveau compte
                     </span>
                     <div className="wrap-input100 validate-input m-b-16">
                       <input
@@ -89,7 +89,7 @@ function Register() {
                         className="input100"
                         type="password"
                         name="Password"
-                        placeholder="mot de passe"
+                        placeholder="Mot de passe"
                         onChange={HandleInputChange}
                         value={userInput.Password}
                       />

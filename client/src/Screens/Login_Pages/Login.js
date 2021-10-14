@@ -43,9 +43,9 @@ function Login() {
                     onSubmit={HandleSubmit}
                     className="login100-form validate-form"
                   >
-                    <span className="login100-form-title "> Login </span>
+                    <span className="login100-form-title "> connecter </span>
                     <span className="login100-form-subtitle m-b-16">
-                      to your account
+                      à votre compte
                     </span>
                     <div className="wrap-input100 validate-input m-b-16">
                       <input
@@ -81,8 +81,8 @@ function Login() {
                     <div className="flex-sb-m w-full p-b-30 mt-3">
                       <div className="contact100-form-checkbox"></div>
                       <div>
-                        Don't have an account?{" "}
-                        <Link to="/register">Sign Up</Link>
+                        Vous n’avez pas de compte?{" "}
+                        <Link to="/register">Inscrivez-vous</Link>
                       </div>
                     </div>
                   </form>
