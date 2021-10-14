@@ -3373,6 +3373,7 @@ a {
 
 ul {
   list-style: none;
+  margin-bottom: 0rem;
 }
 
 img {
@@ -3569,21 +3570,39 @@ header .hero-text-box {
   z-index: 2;
   text-align: center;
 }
-header .hero-text-box h1 {
+@media only screen and (min-width: 500px) {
+  header .hero-text-box h1 {
+    color: #fff;
+    font-size: 5rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+}
+@media only screen and (max-width: 499px) {
+  header .hero-text-box h1 {
+    color: #fff;
+    font-size: 3rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+}
+/* header .hero-text-box h1 {
   color: #fff;
   font-size: 5rem;
   line-height: 1.2;
-}
+  font-weight: 600;
+} */
 
 .menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 8rem 0rem 8rem;
+  padding: 1rem 8rem 0rem 8rem;
   font-size: 2rem;
   position: relative;
   z-index: 1;
 }
+
 .menu .menu-nav {
   display: flex;
 }
@@ -3601,8 +3620,15 @@ header .hero-text-box h1 {
   background-color: white;
   color: #2b709a;
 }
+
 .menu a {
   color: #fff;
+}
+
+/* solving the link problem  */
+.menu a:visited {
+  color: #fff;
+  text-decoration: none;
 }
 .menu i {
   font-size: 3rem;
@@ -3610,7 +3636,7 @@ header .hero-text-box h1 {
 
 .menu-dark {
   background-color: #5aa4d1;
-  padding: 0rem 8rem !important;
+  padding: 1rem 8rem !important;
 }
 
 .form {
@@ -3684,11 +3710,11 @@ textarea {
   text-align: center;
   position: relative;
 }
-.section-campgrounds .section-header {
+/* .section-campgrounds .section-header {
   font-size: 4rem;
   text-transform: uppercase;
   line-height: 4rem;
-}
+} */
 .section-campgrounds .section-header:after {
   content: "";
   width: 15rem;
