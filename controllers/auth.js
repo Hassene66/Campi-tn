@@ -1,3 +1,4 @@
+const { async } = require("rxjs");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 exports.register = async (req, res, next) => {
@@ -79,4 +80,20 @@ const sendTokenResponse = (user, statusCode, res) => {
     .status(statusCode)
     .cookie("token", token, options)
     .json({ success: true, token });
+};
+
+// @desc forget password
+// @route Post /api/v1/auth/forgetpassword
+// @access public
+exports.forgotPassword = async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new ErrorResponse("Pas d'utilisateur avec cet email", 404));
+  }
+  const resetToken = user.getResetPasswordToken();
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
 };
