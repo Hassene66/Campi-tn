@@ -14,7 +14,6 @@ exports.protect = async (req, res, next) => {
   if (req.cookies.token) {
     token = req.cookies.token;
   }
-  console.log(token);
   if (!token) {
     return next(
       new ErrorResponse(
