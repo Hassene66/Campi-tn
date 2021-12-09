@@ -3998,3 +3998,7 @@ footer .sub-text {
     height: 25rem;
   }
 }
+.leaflet-container {
+  height: 420px;
+  width: 640px;
+}

@@ -8,12 +8,8 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const { protect, authorize } = require("./middleware/auth");
 ConnectDB();
-
 app.use(express.json());
 app.use(cookieParser());
-app.get("/", protect, (req, res, next) => {
-  res.status(200).send("testing protected route");
-});
 app.use("/api", auth);
 app.use(errorHandler);
 
