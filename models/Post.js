@@ -13,10 +13,14 @@ const postSchema = new mongoose.Schema({
     maxlength: [300, "le prénom ne peut pas dépasser 300 caractères"],
   },
   likes: {
-    type: Number,
+    type: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
+    ],
   },
   owner: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "Veuillez indiquer le propriétaire de ce poste"],
   },
   comments: {
     type: [
