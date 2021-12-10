@@ -4,10 +4,12 @@ const commentSchema = new mongoose.Schema({
   postID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
-    required: [true, "veuillez entrer l'identificateur du poste"],
+    required: [true, "veuillez entrer l'identificateur du publication"],
   },
   owner: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "Veuillez indiquer le propriétaire de ce commentaire"],
   },
   text: {
     type: String,
@@ -18,7 +20,7 @@ const commentSchema = new mongoose.Schema({
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
+        ref: "Comment",
       },
     ],
     required: false,
