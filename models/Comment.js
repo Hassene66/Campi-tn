@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
-const commentSchema = new mongoose.Schema({
-  postID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Post",
-    required: [true, "veuillez entrer l'identificateur du publication"],
-  },
+exports.commentSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -13,17 +8,8 @@ const commentSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: [true, "veuillez entrer la description"],
-    maxlength: [300, "le message ne peut pas dépasser 300 caractères"],
+    required: [true, "Veuillez entrer le commentaire"],
+    maxlength: [300, "Commentaire ne peut pas dépasser 300 caractères"],
   },
-  reply: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
-    required: false,
-  },
+  createdAt: { type: Date, default: Date.now },
 });
-module.exports = mongoose.model("Comment", commentSchema);

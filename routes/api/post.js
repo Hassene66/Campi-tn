@@ -1,7 +1,12 @@
 const router = require("express").Router();
 const { protect, authorize } = require("../../middleware/auth");
 const { check } = require("express-validator");
-const { createPost, getPost } = require("../../controllers/post");
+const {
+  createPost,
+  likePost,
+  unlikePost,
+  getAllPosts,
+} = require("../../controllers/post");
 router.post(
   "/new/post",
   protect,
@@ -18,5 +23,7 @@ router.post(
   ],
   createPost
 );
-router.get("/get/post/:id", protect, authorize("user"), getPost);
+router.put("/like/post/:id", protect, authorize("user"), likePost);
+router.put("/unlike/post/:id", protect, authorize("user"), unlikePost);
+router.get("/get/posts", protect, authorize("user"), getAllPosts);
 module.exports = router;

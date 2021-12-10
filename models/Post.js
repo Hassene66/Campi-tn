@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const commentSchema = require("./Comment");
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -14,7 +14,11 @@ const postSchema = new mongoose.Schema({
   },
   likes: {
     type: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false,
+      },
     ],
   },
   owner: {
@@ -22,15 +26,12 @@ const postSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Veuillez indiquer le propriétaire de ce poste"],
   },
-  comments: {
-    type: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Comment", required: false },
-    ],
-  },
+  comments: [{ type: commentSchema }],
   coordinates: {
     type: [Number],
     required: [true, "veuillez ajouter les coordonnées du lieu"],
   },
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Post", postSchema);
