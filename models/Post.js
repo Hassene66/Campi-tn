@@ -24,7 +24,7 @@ const postSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Veuillez indiquer le propriétaire de ce poste"],
+    required: [true, "Veuillez indiquer le propriétaire de cette publication"],
   },
   comments: [{ type: commentSchema }],
   coordinates: {

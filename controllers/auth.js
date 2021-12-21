@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 const sendEmail = require("../utils/sendEmail");
+
 exports.register = async (req, res, next) => {
   const { name, surname, email, password } = req.body;
   if (!name || !surname || !email || !password) {
