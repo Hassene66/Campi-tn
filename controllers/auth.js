@@ -156,7 +156,6 @@ exports.forgotPassword = async (req, res, next) => {
 exports.updateDetails = async (req, res, next) => {
   const fieldtoupdate = {
     name: req.body.name,
-    email: req.body.email,
   };
   const user = await User.findByIdAndUpdate(req.user.id, fieldtoupdate, {
     new: true,
@@ -166,6 +165,70 @@ exports.updateDetails = async (req, res, next) => {
     success: true,
     data: user,
   });
+};
+
+// @desc update email
+// @route PUT /api/updateemail
+// @acces Public
+
+exports.updateEmail = async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  const resetToken = user.getResetEmailToken();
+  await user.save({ validateBeforeSave: false });
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/resetemail/${resetToken}`;
+
+  const message = `vous recevez cet e-mail car vous avez demandé la réinitialisation de votre email, veuillez faire une requête PUT à : \n\n ${resetURL}`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "réinitialiser le mot de passe",
+      message,
+    });
+    res.status(200).json({
+      success: true,
+      data: "Un Email de réinitialisation de mail a été envoyé avec succès ",
+    });
+  } catch (err) {
+    console.log(err);
+    user.resetEmailToken = undefined;
+    user.resetEmailExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new ErrorResponse("Email n'a pas pu être envoyé", 500));
+  }
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+
+// @desc Reset email
+// @route PUT /api/resetemail/:resettoken
+// @acces Public
+exports.resetEmail = async (req, res, next) => {
+  // get hashed password
+  const resetEmailToken = crypto
+    .createHash("sha256")
+    .update(req.params.resettoken)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetEmailToken,
+    resetEmailExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new ErrorResponse("Token invalide", 400));
+    // set new password
+  }
+  user.email = req.body.email;
+  user.resetEmailToken = undefined;
+  user.resetEmailExpire = undefined;
+  await user.save();
+  sendTokenResponse(user, 200, res);
 };
 
 // @update Update password
