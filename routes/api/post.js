@@ -6,6 +6,8 @@ const {
   likePost,
   unlikePost,
   getAllPosts,
+  getPost,
+  removePost,
 } = require("../../controllers/post");
 router.post(
   "/new/post",
@@ -25,5 +27,7 @@ router.post(
 );
 router.put("/like/post/:id", protect, authorize("user"), likePost);
 router.put("/unlike/post/:id", protect, authorize("user"), unlikePost);
+router.get("/get/post/:id", protect, authorize("user"), getPost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
+router.delete("/delete/post/:id", protect, authorize("user"), removePost);
 module.exports = router;
