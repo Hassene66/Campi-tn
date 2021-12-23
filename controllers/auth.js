@@ -81,6 +81,7 @@ exports.resetPassword = async (req, res, next) => {
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
+
   if (!user) {
     return next(new ErrorResponse("Token invalide", 400));
     // set new password
@@ -112,7 +113,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 };
 
 // @desc forget password
-// @route Post /api/v1/auth/forgetpassword
+// @route Post /api/forgetpassword
 // @access public
 exports.forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -131,16 +132,54 @@ exports.forgotPassword = async (req, res, next) => {
       subject: "réinitialiser le mot de passe",
       message,
     });
-    res.status(200).json({ success: true, data: "Email Send" });
+    res.status(200).json({
+      success: true,
+      data: "Un Email de réinitialisation du mot de passe a été envoyé avec succès ",
+    });
   } catch (err) {
     console.log(err);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(new ErrorResponse("Email could not be send", 500));
+    return next(new ErrorResponse("Email n'a pas pu être envoyé", 500));
   }
   res.status(200).json({
     success: true,
     data: user,
   });
+};
+
+// @update user details
+// @route put /api/updatedetails
+// @access private
+
+exports.updateDetails = async (req, res, next) => {
+  const fieldtoupdate = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  const user = await User.findByIdAndUpdate(req.user.id, fieldtoupdate, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+
+// @update Update password
+// @route put /api/updatepassword
+// @access private
+
+exports.updatePassword = async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  if (!(await user.matchPassword(req.body.currentPassword)))
+    return next(new ErrorResponse("le mot de passe est incorrect", 401));
+
+  user.password = req.body.newPassword;
+  await user.save();
+
+  sendTokenResponse(user, 200, res);
 };
