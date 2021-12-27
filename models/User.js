@@ -37,6 +37,8 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+  resetEmailToken: String,
+  resetEmailExpire: Date,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -56,7 +58,10 @@ userSchema.methods.getSignedJwtToken = function () {
 };
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
-};  
+};
+userSchema.methods.matchEmail = async function (enteredEmail) {
+  return this.email === enteredEmail;
+};
 
 // generate and hash password token
 userSchema.methods.getResetPasswordToken = function () {
@@ -66,6 +71,16 @@ userSchema.methods.getResetPasswordToken = function () {
     .update(resetToken)
     .digest("hex");
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+
+userSchema.methods.getResetEmailToken = function () {
+  const resetToken = crypto.randomBytes(21).toString("hex");
+  this.resetEmailToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.resetEmailExpire = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
 
