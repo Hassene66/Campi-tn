@@ -26,9 +26,20 @@ const postSchema = new mongoose.Schema({
     required: [true, "Veuillez indiquer le propriétaire de cette publication"],
   },
   comments: [{ type: commentSchema }],
-  coordinates: {
-    type: [Number],
-    required: [true, "veuillez ajouter les coordonnées du lieu"],
+  place: {
+    type: {
+      type: String,
+      enum: ["Point"],
+    },
+    coordinates: {
+      type: [Number],
+      required: [true, "veuillez ajouter les coordonnées du lieu"],
+      index: "2dsphere",
+    },
+    region: {
+      type: String,
+      required: true,
+    },
   },
   createdAt: { type: Date, default: Date.now },
 });

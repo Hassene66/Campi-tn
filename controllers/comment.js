@@ -75,6 +75,6 @@ exports.deleteComment = async (req, res, next) => {
     }
     res.status(200).json({ success: true, post: post });
   } else {
-    return next(new ErrorResponse("Veuillez fournir une ID valide", 500));
+    return next(new ErrorResponse("Veuillez fournir un ID valide", 500));
   }
 };

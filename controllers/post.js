@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Post = require("../models/Post");
+const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.createPost = async (req, res, next) => {
@@ -194,4 +195,23 @@ exports.getPolularPosts = async (req, res, next) => {
   ])
     .exec()
     .then((x) => res.status(200).send(x));
+};
+
+// @Desc Get Posts within a radius by kilometers
+// @Route GET /api/get/allposts/:lng/:lat/:distance
+// @access Private
+
+exports.getPostsByRadius = async (req, res, next) => {
+  const { lng, lat, distance } = req.params;
+  const radius = distance / 6378.1;
+  const posts = await Post.find({
+    place: {
+      $geoWithin: { $centerSphere: [[lng, lat], radius] },
+    },
+  });
+  return res.status(200).json({
+    success: true,
+    count: posts.length,
+    data: posts,
+  });
 };
