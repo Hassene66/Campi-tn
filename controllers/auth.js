@@ -1,4 +1,3 @@
-const { async } = require("rxjs");
 const crypto = require("crypto");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
@@ -161,6 +160,18 @@ exports.updateDetails = async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+// @desc      Get current logged in user
+// @route     GET /api/auth/me
+// @access    Private
+exports.getMe = async (req, res, next) => {
+  // user is already available in req due to the protect middleware
+  const user = req.user;
+
   res.status(200).json({
     success: true,
     data: user,

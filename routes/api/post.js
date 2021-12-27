@@ -9,6 +9,7 @@ const {
   getPost,
   removePost,
   getPolularPosts,
+  getPostsByRadius,
 } = require("../../controllers/post");
 router.post(
   "/new/post",
@@ -20,7 +21,7 @@ router.post(
       "description",
       "La description doit comporter au moins 10 caractères"
     ).isLength({ min: 6 }),
-    check("coordinates", "Veuillez sélectionnez le lieu de camping")
+    check("place.coordinates", "Veuillez sélectionnez le lieu de camping")
       .isArray()
       .notEmpty(),
   ],
@@ -28,6 +29,12 @@ router.post(
 );
 router.put("/like/post/:id", protect, authorize("user"), likePost);
 router.put("/unlike/post/:id", protect, authorize("user"), unlikePost);
+router.get(
+  "/get/allposts/:lng/:lat/:distance",
+  protect,
+  authorize("user"),
+  getPostsByRadius
+);
 router.get("/get/post/:id", protect, authorize("user"), getPost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
 router.delete("/delete/post/:id", protect, authorize("user"), removePost);
