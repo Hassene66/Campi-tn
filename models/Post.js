@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { post } = require("../routes/api/post");
 const commentSchema = require("./Comment");
 const postSchema = new mongoose.Schema({
   title: {
@@ -12,15 +13,13 @@ const postSchema = new mongoose.Schema({
     required: [true, "veuillez entrer la description"],
     maxlength: [300, "le prénom ne peut pas dépasser 300 caractères"],
   },
-  likes: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: false,
-      },
-    ],
-  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
+  ],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -33,5 +32,4 @@ const postSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
 });
-
 module.exports = mongoose.model("Post", postSchema);
