@@ -8,14 +8,14 @@ exports.register = async (req, res, next) => {
   const { name, surname, email, password } = req.body;
   if (!name || !surname || !email || !password) {
     return next(
-      new ErrorResponse("veuillez fournir tous les renseignements requis", 400)
+      new ErrorResponse("Veuillez fournir tous les renseignements requis", 400)
     );
   }
   const ExistingUser = await User.findOne({ email });
   if (ExistingUser) {
     return next(
       new ErrorResponse(
-        "utilisateur existe déjà s’il vous plaît rediriger vers la page de connexion",
+        "Utilisateur existe déjà s’il vous plaît rediriger vers la page de connexion",
         401
       )
     );

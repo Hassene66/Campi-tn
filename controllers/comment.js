@@ -14,7 +14,7 @@ exports.addComment = async (req, res, next) => {
     );
   }
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-    const { text, owner } = req.body;
+    const { text } = req.body;
 
     const post = await Post.findByIdAndUpdate(
       { _id: req.params.id },
@@ -26,8 +26,8 @@ exports.addComment = async (req, res, next) => {
                 "$comments",
                 [
                   {
-                    _id: mongoose.Types.ObjectId(owner),
-                    owner: mongoose.Types.ObjectId(owner),
+                    _id: mongoose.Types.ObjectId(),
+                    owner: mongoose.Types.ObjectId(req.user._id),
                     text,
                   },
                 ],

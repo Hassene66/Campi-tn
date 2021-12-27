@@ -8,18 +8,19 @@ const {
   getAllPosts,
   getPost,
   removePost,
+  getPolularPosts,
 } = require("../../controllers/post");
 router.post(
   "/new/post",
   protect,
   authorize("user"),
   [
-    check("title", "veuillez entrer le titre").not().isEmpty(),
+    check("title", "Veuillez entrer le titre").not().isEmpty(),
     check(
       "description",
-      "la description doit comporter au moins 10 caractères"
+      "La description doit comporter au moins 10 caractères"
     ).isLength({ min: 6 }),
-    check("coordinates", "veuillez sélectionnez le lieu de camping")
+    check("coordinates", "Veuillez sélectionnez le lieu de camping")
       .isArray()
       .notEmpty(),
   ],
@@ -30,4 +31,5 @@ router.put("/unlike/post/:id", protect, authorize("user"), unlikePost);
 router.get("/get/post/:id", protect, authorize("user"), getPost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
 router.delete("/delete/post/:id", protect, authorize("user"), removePost);
+router.get("/get/popular/posts", protect, authorize("user"), getPolularPosts);
 module.exports = router;
