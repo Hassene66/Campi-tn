@@ -43,4 +43,5 @@ const postSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
 });
+postSchema.index({ title: "text", description: "text" });
 module.exports = mongoose.model("Post", postSchema);

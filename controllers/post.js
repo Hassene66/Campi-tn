@@ -18,9 +18,25 @@ exports.createPost = async (req, res, next) => {
     .json({ success: true, msg: "Publication a été ajoutée avec succès" });
 };
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 exports.getAllPosts = async (req, res) => {
-  const posts = await Post.find().populate("owner", "name surname  ");
-  return res.status(200).json({ success: true, posts: posts });
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), "gi");
+    const posts = await Post.find({
+      $text: { $search: regex },
+    })
+      .populate("owner", "name surname  ")
+      .sort("-createdAt");
+    return res.status(200).json({ success: true, posts: posts });
+  } else {
+    const posts = await Post.find()
+      .populate("owner", "name surname  ")
+      .sort("-createdAt");
+    return res.status(200).json({ success: true, posts: posts });
+  }
 };
 
 exports.getPost = async (req, res, next) => {
