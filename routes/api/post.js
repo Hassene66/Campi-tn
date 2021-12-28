@@ -10,6 +10,7 @@ const {
   removePost,
   getPolularPosts,
   getPostsByRadius,
+  getPostsByRegion,
 } = require("../../controllers/post");
 router.post(
   "/new/post",
