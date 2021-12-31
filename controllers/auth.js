@@ -153,10 +153,11 @@ exports.forgotPassword = async (req, res, next) => {
 // @access private
 
 exports.updateDetails = async (req, res, next) => {
-  const fieldtoupdate = {
-    name: req.body.name,
-  };
-  const user = await User.findByIdAndUpdate(req.user.id, fieldtoupdate, {
+  const fieldToUpdate = {};
+  if (req.body.name) fieldToUpdate.name = req.body.name;
+  if (req.body.surname) fieldToUpdate.surname = req.body.surname;
+
+  const user = await User.findByIdAndUpdate(req.user.id, fieldToUpdate, {
     new: true,
     runValidators: true,
   });
