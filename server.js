@@ -16,6 +16,7 @@ const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
 ConnectDB();
+require("./utils/Cache");
 app.use(express.json());
 app.use(cookieParser());
 // sanitize data

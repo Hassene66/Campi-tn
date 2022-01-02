@@ -25,11 +25,15 @@
     "express-validator": "^6.13.0",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.10",
+    "mongoose": "^6.1.4",
+    "multer": "^1.4.4",
+    "multer-gridfs-storage": "^5.0.2",
     "nodemailer": "^6.7.2",
-    "validator": "^13.6.0",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "redis": "^4.0.1",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
