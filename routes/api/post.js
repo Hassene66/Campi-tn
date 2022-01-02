@@ -10,7 +10,13 @@ const {
   removePost,
   getPolularPosts,
   getPostsByRadius,
+  getPostsByRegion,
+  UploadPostImage,
+  getImagesData,
+  getImages,
+  deletePostImage,
 } = require("../../controllers/post");
+const { upload } = require("../../middleware/fileUpload");
 router.post(
   "/new/post",
   protect,
@@ -39,4 +45,17 @@ router.get("/get/post/:id", protect, authorize("user"), getPost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
 router.delete("/delete/post/:id", protect, authorize("user"), removePost);
 router.get("/get/popular/posts", protect, authorize("user"), getPolularPosts);
+router.post(
+  "/upload/post/image",
+  upload("uploads").single("img"),
+  UploadPostImage
+);
+router.get("/get/image/data", getImagesData);
+router.get("/get/post/image/:id", getImages);
+router.delete(
+  "/remove/post/image/:id",
+  protect,
+  authorize("user"),
+  deletePostImage
+);
 module.exports = router;

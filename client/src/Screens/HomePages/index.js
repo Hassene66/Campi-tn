@@ -4,6 +4,7 @@ import HeroBox from "./HeroBox";
 import Slideshow from "./SlideShow";
 import Navbar from "../../Components/Navbar";
 import Location from "./Location";
+import Publication from "./fileUpload";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <CampingList />
       <Slideshow />
       <Location />
+      <Publication />
     </Fragment>
   );
 };
