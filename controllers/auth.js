@@ -69,7 +69,6 @@ exports.logout = async (req, res, next) => {
 // @route PUT /api/resetpassword/:resettoken
 // @acces Public
 exports.resetPassword = async (req, res, next) => {
-  const { name, email, password, role } = req.body;
   // get hashed password
   const resetPasswordToken = crypto
     .createHash("sha256")
