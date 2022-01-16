@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { protect, authorize } = require("../../middleware/auth");
 const { check } = require("express-validator");
+const cleanCache = require("../../middleware/cleanCache");
 const {
   createPost,
   likePost,
@@ -43,7 +44,7 @@ router.get(
 );
 router.get("/get/post/:id", protect, authorize("user"), getPost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
-router.delete("/delete/post/:id", protect, authorize("user"), removePost);
+router.delete("/delete/post/:id", protect, authorize("user"),cleanCache, removePost);
 router.get("/get/popular/posts", protect, authorize("user"), getPolularPosts);
 router.post(
   "/upload/post/image",

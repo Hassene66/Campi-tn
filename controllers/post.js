@@ -1,10 +1,9 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
-const mongodb = require("mongodb");
 const Post = require("../models/Post");
 const upload = require("../middleware/fileUpload");
 const Grid = require("gridfs-stream");
-const cleanCache = require("../middleware/cleanCache");
+
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.createPost = async (req, res, next) => {
