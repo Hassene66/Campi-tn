@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const cleanCache = require("../../middleware/cleanCache");
 const {
   register,
   login,
@@ -15,7 +16,7 @@ const { protect } = require("../../middleware/auth");
 
 router.post("/register", register);
 router.post("/login", login);
-router.get("/logout", logout);
+router.get("/logout",logout,cleanCache);
 router.put("/updatedetails", protect, updateDetails);
 router.post("/updateemail", protect, updateEmail);
 router.put("/updatepassword", protect, updatePassword);
