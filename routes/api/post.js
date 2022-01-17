@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { protect, authorize } = require("../../middleware/auth");
 const { check } = require("express-validator");
-const cleanCache = require("../../middleware/cleanCache");
 const {
   createPost,
   likePost,
@@ -11,11 +10,11 @@ const {
   removePost,
   getPolularPosts,
   getPostsByRadius,
-  getPostsByRegion,
   UploadPostImage,
   getImagesData,
   getImages,
   deletePostImage,
+  updatePost,
 } = require("../../controllers/post");
 const { upload } = require("../../middleware/fileUpload");
 router.post(
@@ -43,8 +42,9 @@ router.get(
   getPostsByRadius
 );
 router.get("/get/post/:id", protect, authorize("user"), getPost);
+router.put("/update/post/:id", protect, authorize("user"), updatePost);
 router.get("/get/posts", protect, authorize("user"), getAllPosts);
-router.delete("/delete/post/:id", protect, authorize("user"),cleanCache, removePost);
+router.delete("/delete/post/:id", protect, authorize("user"), removePost);
 router.get("/get/popular/posts", protect, authorize("user"), getPolularPosts);
 router.post(
   "/upload/post/image",
