@@ -1,9 +1,9 @@
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
+const mongodb = require("mongodb");
 const Post = require("../models/Post");
 const upload = require("../middleware/fileUpload");
 const Grid = require("gridfs-stream");
-
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.createPost = async (req, res, next) => {
@@ -33,8 +33,9 @@ exports.getAllPosts = async (req, res) => {
       .populate("owner", "name surname  ")
       .sort("-createdAt");
     return res.status(200).json({ success: true, posts: posts });
-  } else {
-    const posts = await Post.find()
+  }
+  if (JSON.stringify(req.query)) {
+    const posts = await Post.find(req.query)
       .populate("owner", "name surname  ")
       .sort("-createdAt");
     return res.status(200).json({ success: true, posts: posts });
@@ -44,7 +45,7 @@ exports.getAllPosts = async (req, res) => {
 exports.getPost = async (req, res, next) => {
   if (!req.params.id) {
     return next(
-      new ErrorResponse("Veuillez fournir l'ID du publication ", 400)
+      new ErrorResponse("Veuillez fournir l'id du publication ", 400)
     );
   }
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -53,20 +54,47 @@ exports.getPost = async (req, res, next) => {
     });
 
     if (!post) {
-      return next(
-        new ErrorResponse("Publication non trouvé avec l’id fourni", 404)
-      );
+      return next(new ErrorResponse("Publication non trouvé", 404));
     }
     return res.status(200).json({ success: true, post: post });
   } else {
-    return next(new ErrorResponse("Veuillez fournir une ID valide", 500));
+    return next(new ErrorResponse("Veuillez fournir une id valide", 500));
   }
+};
+
+exports.updatePost = async (req, res, next) => {
+  const fieldToUpdate = {};
+
+  if (!req.params.id) {
+    return next(
+      new ErrorResponse("Veuillez fournir l'id du publication ", 400)
+    );
+  }
+  if (req.body.title) fieldToUpdate.title = req.body.title;
+  if (req.body.description) fieldToUpdate.description = req.body.description;
+  if (req.body.place) {
+    fieldToUpdate.place = {
+      coordinates: req.body.place.coordinates
+        ? req.body.place.coordinates
+        : null,
+      region: req.body.place.region ? req.body.place.region : null,
+    };
+  }
+
+  const post = await Post.findByIdAndUpdate(req.params.id, fieldToUpdate, {
+    new: true,
+    runValidators: true,
+  });
+  return res.status(200).json({
+    success: true,
+    data: post,
+  });
 };
 
 exports.likePost = async (req, res, next) => {
   if (!req.params.id) {
     return next(
-      new ErrorResponse("Veuillez fournir l'ID du publication ", 400)
+      new ErrorResponse("Veuillez fournir l'id du publication ", 400)
     );
   }
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -111,9 +139,7 @@ exports.likePost = async (req, res, next) => {
           );
         }
         if (!post) {
-          return next(
-            new ErrorResponse("Publication non trouvé avec l’id fourni", 404)
-          );
+          return next(new ErrorResponse("Publication non trouvé", 404));
         }
         if (post.owner == req.user.id) {
           return next(
@@ -127,14 +153,14 @@ exports.likePost = async (req, res, next) => {
       }
     );
   } else {
-    return next(new ErrorResponse("Veuillez fournir une ID valide", 500));
+    return next(new ErrorResponse("Veuillez fournir un id valide", 500));
   }
 };
 
 exports.unlikePost = async (req, res, next) => {
   if (!req.params.id) {
     return next(
-      new ErrorResponse("Veuillez fournir l'ID du publication ", 400)
+      new ErrorResponse("Veuillez fournir l'id du publication ", 400)
     );
   }
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -147,20 +173,18 @@ exports.unlikePost = async (req, res, next) => {
       null
     );
     if (!post) {
-      return next(
-        new ErrorResponse("Publication non trouvé avec l’id fourni", 404)
-      );
+      return next(new ErrorResponse("Publication non trouvé ", 404));
     }
     res.status(200).json({ success: true, post: post });
   } else {
-    return next(new ErrorResponse("Veuillez fournir une ID valide", 500));
+    return next(new ErrorResponse("Veuillez fournir un id valide", 500));
   }
 };
 
 exports.removePost = async (req, res, next) => {
   if (!req.params.id) {
     return next(
-      new ErrorResponse("Veuillez fournir l'ID du publication ", 400)
+      new ErrorResponse("Veuillez fournir l'id du publication ", 400)
     );
   }
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -190,7 +214,7 @@ exports.removePost = async (req, res, next) => {
       }
     );
   } else {
-    return next(new ErrorResponse("Veuillez fournir une ID valide", 500));
+    return next(new ErrorResponse("Veuillez fournir une id valide", 500));
   }
 };
 
