@@ -37,9 +37,9 @@ CampiTn is a RESTfull API for a social networking camping app. The app is design
 
 <p align="left">
   <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" />
+  <img src="https://img.shields.io/badge/express.js-%23000.svg?style=for-the-badge&logo=express&logoColor=%white" />
   <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" />
-  <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white" />
+  <img src="https://img.shields.io/badge/redis server-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white" />
   <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white" />
   <img src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white" />  
 </p>
@@ -73,4 +73,4 @@ http://localhost:5000/
 ## You may also like
 
 - [HiCoach](https://github.com/salimkazdaghli/Hicotech-Frontend) - A coaching web app.
-- [school MS](https://github.dev/Hassene66/ProjetPFE) - A school management system.
+- [School MS](https://github.com/Hassene66/ProjetPFE) - A school management system.
